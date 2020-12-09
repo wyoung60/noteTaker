@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { json } = require("express");
+const shortid = require("shortid");
 
 const app = express();
 const PORT = 3000;
@@ -25,6 +25,7 @@ app.get("/api/notes", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
   let newNote = req.body;
+  newNote.id = shortid.generate();
   fs.readFile(path.join(__dirname, "/db/db.json"), (err, data) => {
     if (err) {
       console.log(err);
