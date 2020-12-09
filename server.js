@@ -42,6 +42,7 @@ app.post("/api/notes", (req, res) => {
       );
     }
   });
+  res.send(path.join(__dirname, "db/db.json"));
 });
 
 app.listen(PORT, () => console.log(`App is listening on PORT ${PORT}`));
