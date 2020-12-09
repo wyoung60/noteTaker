@@ -46,4 +46,30 @@ app.post("/api/notes", (req, res) => {
   res.send(path.join(__dirname, "db/db.json"));
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+  let selectedId = req.params.id;
+  fs.readFile(path.join(__dirname, "/db/db.json"), (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      storedData = JSON.parse(data);
+      for (let i = 0; i < storedData.length; i++) {
+        if (storedData[i].id === selectedId) {
+          storedData.splice(i, 1);
+        }
+      }
+      fs.writeFile(
+        path.join(__dirname, "/db/db.json"),
+        JSON.stringify(storedData),
+        (err) => {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+    }
+  });
+  res.send(path.join(__dirname, "db/db.json"));
+});
+
 app.listen(PORT, () => console.log(`App is listening on PORT ${PORT}`));
